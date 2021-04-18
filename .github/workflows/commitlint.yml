@@ -1,0 +1,15 @@
+name: commitlint
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: commitlint
+          uses: wagoid/commitlint-github-action@v1
+          with:
+            configFile: ./.commitlintrc.js
