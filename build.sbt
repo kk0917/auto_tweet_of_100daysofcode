@@ -15,5 +15,8 @@ lazy val root = (project in file(".")).settings(
     "org.mockito"                 % "mockito-core"             % "2.21.0" % Test,
     "com.beautiful-scala"        %% "scalastyle"               % "1.5.0",
     "com.google.cloud.functions"  % "functions-framework-api"  % "1.0.4"
-  )
+  ),
+  assembly / test := {},
+  assembly / mainClass := Some("functions.gcloud.Diary"),
+  assembly / assemblyJarName := "100DaysOfCode.jar"
 )
