@@ -17,10 +17,10 @@ class Gateway extends HttpFunction {
 
   override def service(request: HttpRequest, response: HttpResponse): Unit = {
     val twitter: TwitterClient = new TwitterClient(TwitterCredentials.builder()
-      .apiKey(API_KEY)
-      .apiSecretKey(API_SECRET_KEY)
       .accessToken(ACCESS_TOKEN_KEY)
       .accessTokenSecret(ACCESS_TOKEN_SECRET)
+      .apiKey(API_KEY)
+      .apiSecretKey(API_SECRET_KEY)
       .build())
 
     try {
