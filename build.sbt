@@ -15,7 +15,10 @@ lazy val root = (project in file(".")).settings(
     "org.mockito"                   % "mockito-core"             % "2.21.0" % Test,
     "com.beautiful-scala"          %% "scalastyle"               % "1.5.0",
     "com.google.cloud.functions"    % "functions-framework-api"  % "1.0.4",
-    "com.github.redouane59.twitter" % "twittered"                % "1.22"
+    "com.github.redouane59.twitter" % "twittered"                % "1.22",
+    "io.circe"                     %% "circe-core"               % "0.14.0-M6",
+    "io.circe"                     %% "circe-generic"            % "0.14.0-M6",
+    "io.circe"                     %% "circe-parser"             % "0.14.0-M6"
   ),
   assembly / test := {},
   assembly / mainClass := Some("com.onehundreddaysofcode.Gateway"),
