@@ -4,10 +4,6 @@ import com.google.cloud.functions.{HttpFunction, HttpRequest, HttpResponse}
 import com.google.gson.{Gson, JsonElement, JsonObject, JsonParseException}
 import com.github.redouane59.twitter.TwitterClient
 import com.github.redouane59.twitter.signature.TwitterCredentials
-import io.circe._
-import io.circe.generic.auto._
-import io.circe.parser._
-import io.circe.syntax._
 
 class Gateway extends HttpFunction {
   //  override def service(httpRequest: HttpRequest, httpResponse: HttpResponse): Unit = {

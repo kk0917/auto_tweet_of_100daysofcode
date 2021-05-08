@@ -1,22 +1,20 @@
 package com.onehundreddaysofcode
 
-import org.scalatest.scalatest.{DiagrammedAssertions, FlatSpec}
-import org.scalatest.concurrent.TimeLimits.failAfter
-import org.scalatest.mockito.MockitoSugar
-import org.scalatest.time.SpanSugar._
-import org.mockito.Mockito.when
+import com.google.cloud.functions.HttpResponse
+import org.scalatest.flatspec.AnyFlatSpec
 
-class GatewaySpec extends FlatSpec with DiagrammedAssertions with MockitoSugar {
-  val calc = new Calc
+class GatewaySpec extends AnyFlatSpec {
+  val gateway = new Gateway()
 
-  "Calc.sum function" should "fetch integers array, and can return sum them all." in {
-    assert(calc.sum(Seq(1, 2, 3)) === 6) // true
-    assert(calc.sum(Seq(0)) === 0) // true
-    assert(calc.sum(Seq(-1, 1)) === 0) // true
-    //  assert(calc.sum(Seq()) === 9999)     // false
+  "buildResponse def of gateway" should "returns responses that has 200" in {
+    assert(gateway.buildResponse(resp: HttpResponse) == )
+    assert(gateway.sum(Seq(1, 2, 3)) === 6) // true
+    assert(gateway.sum(Seq(0)) === 0) // true
+    assert(gateway.sum(Seq(-1, 1)) === 0) // true
+    //  assert(gateway.sum(Seq()) === 9999)     // false
   }
 
   it should "Overflow occure when sum them all is over Integer.MAX_VALUE." in {
-    assert(calc.sum(Seq(Integer.MAX_VALUE, 1)) === Integer.MIN_VALUE)
+    assert(gateway.sum(Seq(Integer.MAX_VALUE, 1)) === Integer.MIN_VALUE)
   }
 }
