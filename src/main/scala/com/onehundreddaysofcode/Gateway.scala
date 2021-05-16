@@ -1,5 +1,8 @@
 package com.onehundreddaysofcode
 
+import java.io.BufferedWriter
+import java.net.HttpURLConnection
+
 import com.google.cloud.functions.{HttpFunction, HttpRequest, HttpResponse}
 import com.google.gson.{Gson, JsonElement, JsonObject, JsonParseException}
 import com.github.redouane59.twitter.TwitterClient
@@ -16,9 +19,6 @@ class Gateway extends HttpFunction {
   val accessTokeyKey:    String = System.getenv("ACCESS_TOKEN_KEY")
   val accessTokenSecret: String = System.getenv("ACCESS_TOKEN_SECRET")
 
-  // use to parse JSON content
-  //  val gson: Gson = new Gson()
-
   override def service(request: HttpRequest, response: HttpResponse) = {
     val twitter: TwitterClient = new TwitterClient(TwitterCredentials.builder()
       .apiKey(apiKey)
@@ -27,15 +27,20 @@ class Gateway extends HttpFunction {
       .accessTokenSecret(apiSecretKey)
       .build())
 
-    val gson: Gson = new Gson()
+    val gson: Gson  = new Gson()
+    val contentType = Option(request.getContentType)
 
     try {
       // parse json of pushed tweet info
-      val requestParsed: Option[JsonElement] = Some(gson.fromJson(request.getReader, Class[JsonElement]))
-      val requestJson: JsonObject = requestParsed match {
-        case Some(v) if v.isJsonObject => requestParsed
-        case _ =>
+      val body: Option[String] = contentType match {
+        case Some(t)
+          if contentType.getOrElse(None) == "application/json" =>
+            gson.fromJson(request.getReader, classOf[Nothing])
+        case _ => None
       }
+
+      val buildResp = buildResponse(response)
+      buildResp
 
       // parse json body
       // ...
@@ -61,11 +66,9 @@ class Gateway extends HttpFunction {
     }
   }
 
-  def buildResponse(response: HttpResponse): HttpResponse = {
-    response.setStatusCode(200)
+  def buildResponse(response: HttpResponse): BufferedWriter = {
+    response.setStatusCode(HttpURLConnection.HTTP_OK)
     response.setContentType("application/json")
     response.getWriter.write("")
-
-    response
   }
 }
