@@ -27,13 +27,14 @@ class Gateway extends HttpFunction {
       .accessTokenSecret(apiSecretKey)
       .build())
 
-    val gson        = new Gson()
+    val gson: Gson  = new Gson()
     val contentType = Option(request.getContentType)
 
     try {
       // parse json of pushed tweet info
       val body: Option[String] = contentType match {
-        case Some(t) if contentType.getOrElse(None) == "application/json" =>
+        case Some(t)
+          if Some(t).getOrElse(None) == "application/json" =>
             gson.fromJson(request.getReader, classOf[JsonObject])
         case _ => None
       }
@@ -57,6 +58,8 @@ class Gateway extends HttpFunction {
 
       // response
       //      val builtResp = buildResponse(response)
+      val writer = response.getWriter
+      writer.write(body.getOrElse(None), 0, 0) // TODO: fix
 
     } catch {
       // status=500
@@ -64,10 +67,9 @@ class Gateway extends HttpFunction {
     }
   }
 
-  def buildResponse(response: HttpResponse): BufferedWriter = {
+  def buildResponse(response: HttpResponse): HttpResponse = {
     response.setStatusCode(HttpURLConnection.HTTP_OK)
-    response.setContentType("application/json")
-    response.getWriter.write("")
+    response.setContentType("application/json; charset=utf-8")
 
     response
   }
