@@ -40,6 +40,8 @@ class Gateway extends HttpFunction {
       }
 
       val buildResp = buildResponse(response)
+      val writer: BufferedWriter = buildResp.getWriter
+      writer.write(request.getReader.toString)
 
       // parse json body
       // ...
@@ -58,8 +60,6 @@ class Gateway extends HttpFunction {
 
       // response
       //      val builtResp = buildResponse(response)
-      val writer = response.getWriter
-      writer.write(body.getOrElse(None), 0, 0) // TODO: fix
 
     } catch {
       // status=500
@@ -70,7 +70,6 @@ class Gateway extends HttpFunction {
   def buildResponse(response: HttpResponse): HttpResponse = {
     response.setStatusCode(HttpURLConnection.HTTP_OK)
     response.setContentType("application/json; charset=utf-8")
-
     response
   }
 }
