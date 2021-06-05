@@ -16,10 +16,10 @@ class Gateway extends HttpFunction {
   // config the following runtime env var to Cloud Functions
   val apiKey:            String = System.getenv("API_KEY")
   val apiSecretKey:      String = System.getenv("API_SECRET_KEY")
-  val accessTokeyKey:    String = System.getenv("ACCESS_TOKEN_KEY")
+  val accessTokenKey:    String = System.getenv("ACCESS_TOKEN_KEY")
   val accessTokenSecret: String = System.getenv("ACCESS_TOKEN_SECRET")
 
-  override def service(request: HttpRequest, response: HttpResponse) = {
+  override def service(request: HttpRequest, response: HttpResponse): Unit = {
     val twitter: TwitterClient = new TwitterClient(TwitterCredentials.builder()
       .apiKey(apiKey)
       .apiSecretKey(apiSecretKey)
